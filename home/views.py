@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -5,4 +7,4 @@ from django.shortcuts import render
 
 
 def home(request):
-    return HttpResponse('Hello, World!')
+    return render(request, 'home/welcome.html', {'today': datetime.today()})
