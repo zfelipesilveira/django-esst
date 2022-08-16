@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
@@ -29,10 +30,14 @@ class NotesCreateView(CreateView):
     form_class = NotesForm
 
 
-class NotesListView(ListView):
+class NotesListView(LoginRequiredMixin, ListView):
     model = Notes
     context_object_name = "notes"
     template_name = "notes/notes_list.html"
+    login_url = "/admin"
+
+    def get_queryset(self):
+        return self.request.user.notes.all()
 
 
 class NotesDetailView(DetailView):
